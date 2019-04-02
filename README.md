@@ -3,6 +3,7 @@
 ## Pre-requisites
 1. Docker installed (but no necesary if you don't want to run the test in a docker container)
 2. Nodejs
+3. npm install
 
 ## Run Scripts
 * Keep the folder the structure intact
