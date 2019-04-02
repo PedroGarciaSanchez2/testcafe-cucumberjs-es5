@@ -8,7 +8,7 @@
 ## Run Scripts
 * Keep the folder the structure intact
 * Run the different scripts detailed in the package.json
-* The tests results will be archived under the folder reports. To get the nice reporter you should run the command `npm run reporter
+* The tests results will be archived under the folder reports. To get the nice reporter you should run the command `npm run reporter`
 
 # Adding tests
 All the test are written in Gherkin, the steps are defined in the StepDefinitions files, and the code is interpreted in the page objects.
