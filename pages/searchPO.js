@@ -8,8 +8,8 @@ const repo = function() { return xpathToSelector('//ul[contains(@class, \'repo-l
 
 exports.search = {
 //functions
-    assertSearchBarExists: async function() {
-        await testController.expect(searchBar().exists).ok('Search doesn\'t exists or is not displayed')
+    assertSearchBarExists: function() {
+        return testController.expect(searchBar().exists).ok('Search doesn\'t exists or is not displayed')
     },
 
     termToSearch: async function(toSearch) {
@@ -17,7 +17,7 @@ exports.search = {
         await testController.pressKey('enter')
     },
 
-    assertRepoExist: async function() {
-        await testController.expect(repo().exists).ok('The repo you\'re looking for doesn\'t exists');
+    assertRepoExist: function() {
+        return testController.expect(repo().exists).ok('The repo you\'re looking for doesn\'t exists');
     }
 };

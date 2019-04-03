@@ -3,7 +3,7 @@ const createTestCafe        = require('testcafe');
 const testControllerHolder  = require('./testControllerHolder');
 const {AfterAll, setDefaultTimeout, Before, After, Status} = require('cucumber');
 const errorHandling         = require('./errorHandling');
-const TIMEOUT               = 20000;
+const TIMEOUT               = 60000;
 const configProperties      = require('../../config/global');
 
 let isTestCafeError = false;

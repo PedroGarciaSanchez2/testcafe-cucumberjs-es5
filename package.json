@@ -10,7 +10,7 @@
   ],
   "scripts": {
     "test-chrome": "./node_modules/.bin/cucumber-js  --world-parameters \"{\\\"browser\\\": \\\"chrome\\\"}\"",
-    "test-chrome-slow": "./node_modules/.bin/cucumber-js  --world-parameters \"{\\\"options\\\":{\\\"speed\\\":0.01},\\\"browser\\\": \\\"chrome\\\"}\"",
+    "test-chrome-slow": "./node_modules/.bin/cucumber-js  --world-parameters \"{\\\"options\\\":{\\\"speed\\\":0.05},\\\"browser\\\": \\\"chrome\\\"}\"",
     "test-chrome-report": "./node_modules/.bin/cucumber-js  --format json:./reports/report.json --world-parameters \"{\\\"browser\\\": \\\"chrome --window-size='1360,768'\\\"}\"",
     "test-chrome-headless-report": "./node_modules/.bin/cucumber-js  --format json:./reports/report.json --world-parameters \"{\\\"browser\\\": \\\"chrome:headless\\\"}\"",
     "test-chrome-headless": "./node_modules/.bin/cucumber-js  --world-parameters \"{\\\"browser\\\": \\\"chrome:headless\\\"}\"",
