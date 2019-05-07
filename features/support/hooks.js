@@ -6,27 +6,27 @@ const errorHandling         = require('./errorHandling');
 const TIMEOUT               = 60000;
 const configProperties      = require('../../config/global');
 
-let isTestCafeError = false;
-let attachScreenshotToReport = null;
-let cafeRunner = null;
-let n = 0;
+let isTestCafeError = false
+let attachScreenshotToReport = null
+let cafeRunner = null
+let n = 0
 
-function createTestFile() {
-    fs.writeFileSync('test.js',
+function createTestFile(featureName = '', scenarioName = '') {
+    fs.writeFileSync(
+        'test.js',
         'import errorHandling from "./features/support/errorHandling.js";\n' +
         'import testControllerHolder from "./features/support/testControllerHolder.js";\n\n' +
-
-        'fixture("fixture")\n' +
-
+        'fixture("' + featureName + ' | ' + scenarioName + '")\n' +
         'test\n' +
-        '("test", testControllerHolder.capture)')
+        '("", testControllerHolder.capture)'
+    )
 }
 
 function runTest(iteration, browser, speed) {
     createTestCafe('localhost', 1338 + iteration, 1339 + iteration)
-        .then(function(tc) {
-            cafeRunner = tc;
-            const runner = tc.createRunner();
+        .then(function (tc) {
+            cafeRunner = tc
+            const runner = tc.createRunner()
             return runner
                 .src('./test.js')
                 .screenshots('reports/screenshots/', true)
@@ -34,70 +34,72 @@ function runTest(iteration, browser, speed) {
                 .run({
                     skipJsErrors: true,
                     assertionTimeout: 10000,
-                    speed: speed
+                    speed: speed,
+                    quarantineMode: true
                 })
-                .catch(function(error) {
-                    console.error(error);
-                });
+                .catch(function (error) {
+                    console.error(error)
+                })
         })
-        .then(function(report) {
-        });
+        .then(function (report) {
+        })
 }
 
+setDefaultTimeout(TIMEOUT)
 
-setDefaultTimeout(TIMEOUT);
+Before(function (scenario) {
+    let featureName = scenario.sourceLocation.uri.split('/').slice(-1)[0].split('.')[0]
+    let scenarioName = scenario.pickle.name
 
-Before(function() {
-    runTest(n, this.setBrowser(), this.setSpeed());
-    createTestFile();
-    n += 2;
-    return this.waitForTestController.then(async function(testController) {
-        await testController.navigateTo(configProperties.url);
-        return testController.resizeWindow(1360, 768);
-    });
+    runTest(n, this.setBrowser(), this.setSpeed())
+    createTestFile(featureName, scenarioName)
+    n += 2
+    return this.waitForTestController.then(async function (testController) {
+        await testController.navigateTo(configProperties.url)
+        return testController.resizeWindow(1360, 768)
+    })
+})
 
-});
+After(function () {
+    fs.unlinkSync('test.js')
+    testControllerHolder.free()
+})
 
-After(function() {
-    fs.unlinkSync('test.js');
-    testControllerHolder.free();
-});
-
-After(async function(testCase) {
-    const world = this;
+After(async function (testCase) {
+    const world = this
     if (testCase.result.status === Status.FAILED) {
-        isTestCafeError = true;
-        attachScreenshotToReport = world.attachScreenshotToReport;
-        errorHandling.addErrorToController();
+        isTestCafeError = true
+        attachScreenshotToReport = world.attachScreenshotToReport
+        errorHandling.addErrorToController()
         await errorHandling.ifErrorTakeScreenshot(testController)
     }
-});
+})
 
-AfterAll(function() {
-    let intervalId = null;
+AfterAll(function () {
+    let intervalId = null
 
     function waitForTestCafe() {
-        intervalId = setInterval(checkLastResponse, 500);
+        intervalId = setInterval(checkLastResponse, 500)
     }
 
     function checkLastResponse() {
         if (testController.testRun.lastDriverStatusResponse === 'test-done-confirmation') {
-            cafeRunner.close();
-            process.exit();
-            clearInterval(intervalId);
+            cafeRunner.close()
+            clearInterval(intervalId)
+            process.exit()
         }
     }
 
-    waitForTestCafe();
-});
+    waitForTestCafe()
+})
 
-const getIsTestCafeError = function() {
-    return isTestCafeError;
-};
+const getIsTestCafeError = function () {
+    return isTestCafeError
+}
 
-const getAttachScreenshotToReport = function(path) {
-    return attachScreenshotToReport(path);
-};
+const getAttachScreenshotToReport = function (path) {
+    return attachScreenshotToReport(path)
+}
 
-exports.getIsTestCafeError = getIsTestCafeError;
-exports.getAttachScreenshotToReport = getAttachScreenshotToReport;
+exports.getIsTestCafeError = getIsTestCafeError
+exports.getAttachScreenshotToReport = getAttachScreenshotToReport

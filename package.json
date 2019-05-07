@@ -2,7 +2,7 @@
   "name": "testcafe-cucumberjs",
   "author": "Francisco Álvaro <fralvarop@gmail.com>",
   "version": "v1.0.0",
-  "description": "e2e testing framework using testcafe + cucumberjs",
+  "description": "e2e testing framework using testcafe + cucumberjs (es5)",
   "license": "MIT",
   "contributors": [
     "Ryan Quellhorst <rquellh@gmail.com>",
