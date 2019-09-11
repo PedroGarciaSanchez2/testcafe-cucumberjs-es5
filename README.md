@@ -4,9 +4,12 @@
 1. Nodejs
 2. npm install
 
+## Install dependencies
+run the command `npm install`
+
 ## Run Scripts
 * Keep the folder the structure intact
-* Run the different scripts detailed in the package.json
+* Run the different scripts detailed in the package.json with the command `npm run test-chrome-report`,etc
 * The tests results will be archived under the folder reports. To get the nice reporter you should run the command `npm run reporter`
 
 # Adding tests
